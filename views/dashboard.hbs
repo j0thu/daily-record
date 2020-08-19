@@ -1,0 +1,36 @@
+<h4 style="text-align: center; font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">Dashboard</h4>
+<h4>Hello {{name}}</h4>
+<p>Here are your stories</p>
+{{#if stories}}
+<table class="striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each stories}}
+            <tr> <!--Since we are in the stories loop, it knows the _id, title, createdAt and status-->
+                <td><a href="/stories/{{_id}}">{{title}}</td></a>
+                <td>{{formatDate createdAt 'MMMM Do YYYY, h:mm:ss a'}}</td> <!--We are passing the formatDate helper and passing createdAt and format as parameters to the function-->
+                <td><span class="dash-status">{{status}}</span></td>
+                <td>
+                    <a href="/stories/edit/{{_id}}" class="btn btn-float">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
+                    <form action="/stories/{{_id}}" method = "POST" id="delete-form">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn red"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    </form>
+                </td>
+
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{else}}
+<p>You have not created any stories</p> 
+{{/if}}
